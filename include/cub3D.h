@@ -1,25 +1,39 @@
 #ifndef CUB3D_H
 #define CUB3D_H
 
+#define PI 3.14159265359
 #define SCREEN_WIDTH 1000
 #define SCREEN_HEIGHT 600
 #define COLOR_MASK 0xff00ff
+#define FOV 90.0
 
 #include "../mlx/mlx.h"
+#include <math.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <fcntl.h>
 
-typedef struct	s_player
+typedef struct	s_point
 {
 	float	x;
 	float	y;
+}				t_point;
+
+typedef struct	s_ray
+{
+	t_point	start;
+	t_point vector;
+}				t_ray;
+
+typedef struct	s_player
+{
+	t_point	pos;
 }				t_player;
 
 typedef struct	s_map
 {
-	int	**map;
+	float	**map;
 }				t_map;
 
 typedef struct	s_img
