@@ -3,7 +3,7 @@
 
 #define SCREEN_WIDTH 1000
 #define SCREEN_HEIGHT 600
-*define COLOR_MASK 16711935
+#define COLOR_MASK 16711935
 
 #include "../mlx/mlx.h"
 #include <stdlib.h>
