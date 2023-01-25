@@ -16,15 +16,10 @@ typedef struct	s_player
 	float	y;
 }				t_player;
 
-typedef struct	t_element
-{
-	float	height;
-}				t_element;
-
 typedef struct	s_game
 {
 	t_player	player;
-	t_element	**map;
+	int			**map;
 }				t_game;
 
 typedef struct	s_img
@@ -65,5 +60,13 @@ void	draw_sky_ground(t_data *data, int sky_color, int ground_color);
 
 // game.c
 void	create_game(t_game *game, int argc, char *argv[]);
+
+// file_utils.c
+char	*read_file(char *path);
+
+// str_utils.c
+void	realloc_str(char **str_ptr, int size_to_add);
+int		ft_strlen(char *str);
+char 	*ft_strcpy(char *dest, const char *src);
 
 #endif
