@@ -16,10 +16,15 @@ typedef struct	s_player
 	float	y;
 }				t_player;
 
+typedef struct	s_map
+{
+	int	**map;
+}				t_map;
+
 typedef struct	s_game
 {
 	t_player	player;
-	int			**map;
+	t_map		map; 
 }				t_game;
 
 typedef struct	s_img
