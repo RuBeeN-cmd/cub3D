@@ -46,46 +46,46 @@ int		check_error(char *buf)
 	return (nb_player != 1);
 }
 
-int	get_row_nb(char *buf)
-{
-	int	row_nb;
+//int	get_row_nb(char *buf)
+//{
+//	int	row_nb;
 	
-	row_nb = 0;
-	while (buf[i] == '\n')
-		i++;
-	while (buf[i])
-	{
-		if (buf[i] == '\n')
-			row_nb++;
-		while (buf[i] == '\n')
-			i++;
-	}
-}
+//	row_nb = 0;
+//	while (buf[i] == '\n')
+//		i++;
+//	while (buf[i])
+//	{
+//		if (buf[i] == '\n')
+//			row_nb++;
+//		while (buf[i] == '\n')
+//			i++;
+//	}
+//}
 
-void	parse_map(t_game *game, char *buf)
-{
-	int	row_nb;
-	int	i;
+//void	parse_map(t_game *game, char *buf)
+//{
+//	int	row_nb;
+//	int	i;
 
-	i = 0;
-	row_nb = get_row_nb(buf);
-	while (buf[i] == '\n')
-		i++;
-	while (buf[i])
-	{
+//	i = 0;
+//	row_nb = get_row_nb(buf);
+//	while (buf[i] == '\n')
+//		i++;
+//	while (buf[i])
+//	{
 
-	}
-}
+//	}
+//}
 
-void	init_game(t_game *game, char *buf)
-{
-	if (check_error(buf))
-	{
-		free(buf);
-		exit(1);
-	}
-	parse_map(game, buf);
-}
+//void	init_game(t_game *game, char *buf)
+//{
+//	if (check_error(buf))
+//	{
+//		free(buf);
+//		exit(1);
+//	}
+//	parse_map(game, buf);
+//}
 
 void	create_game(t_game *game, int argc, char *argv[])
 {
@@ -96,6 +96,7 @@ void	create_game(t_game *game, int argc, char *argv[])
 	if (check_extension(*argv, "cub"))
 		exit(1);
 	buf = read_file(*argv);
-	init_game(game, buf);
+	(void) game;
+	//init_game(game, buf);
 	free(buf);
 }

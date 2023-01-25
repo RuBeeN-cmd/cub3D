@@ -3,7 +3,7 @@
 
 #define SCREEN_WIDTH 1000
 #define SCREEN_HEIGHT 600
-#define COLOR_MASK 16711935
+#define COLOR_MASK 0xff00ff
 
 #include "../mlx/mlx.h"
 #include <stdlib.h>
@@ -22,12 +22,6 @@ typedef struct	s_map
 	int	**map;
 }				t_map;
 
-typedef struct	s_game
-{
-	t_player	player;
-	t_map		map; 
-}				t_game;
-
 typedef struct	s_img
 {
 	void	*img;
@@ -38,6 +32,13 @@ typedef struct	s_img
 	int		line_len;
 	int		pixel_bits;
 }				t_img;
+
+typedef struct	s_game
+{
+	t_player	player;
+	t_map		map;
+	t_img		enemy_sprite;
+}				t_game;
 
 typedef struct	s_data
 {
