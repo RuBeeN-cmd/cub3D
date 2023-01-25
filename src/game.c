@@ -24,81 +24,43 @@ static int	check_extension(char *str, char *ext)
 	return (1);
 }
 
-int	ft_strlen(char *str)
-{
-	int	len;
-
-	len = 0;
-	while (str && str[len])
-		len++;
-	return (len);
-}
-
-char *ft_strcpy(char *dest, const char *src)
+// only 0, 1, N, S, E, W
+// only one N, S, E, W
+int		check_error(char *buf)
 {
 	int	i;
 
 	i = 0;
-	while (src && src[i])
+	while (buf[i])
 	{
-		dest[i] = src[i];
+		if (buf[i] != '0' && buf[i] != '1' && buf[i] != 'N' && buf[i] != 'S' && buf[i] != 'E' && buf[i] != 'W')
+			return (1);
 		i++;
+		while (buf[i] == '\n')
+			i++;
 	}
-	return dest;
+	return (0);
 }
 
-void	realloc_str(char **str_ptr, int size_to_add)
+void	init_game(t_game *game, char *buf)
 {
-	char	*str;
-	int		len;
-
-	len = ft_strlen(*str_ptr);
-	str = malloc(sizeof(char) * (len + size_to_add + 1));
-	printf("%d\n", (len + size_to_add + 1));
-	ft_strcpy(str, *str_ptr);
-	free(*str_ptr);
-	*str_ptr = str;
-}
-
-char	*read_file(int fd)
-{
-	char	*str;
-	char	buf;
-	int		i;
-	int		malloc_size;
-
-	str = NULL;
-	malloc_size = 16;
-	i = 0;
-	while (read(fd, &buf, 1))
+	if (check_error(buf))
 	{
-		if (i % malloc_size == 0)
-			realloc_str(&str, malloc_size);
-		str[i] = buf;
-		i++;
-		if (i % malloc_size == 0)
-			str[i] = 0;
+		free(buf);
+		exit(1);
 	}
-	str[i] = 0;
-	if (i % malloc_size + 1)
-		realloc_str(&str, -((i + 1) % malloc_size - 2));
-	return (str);
+	(void) game;
 }
 
 void	create_game(t_game *game, int argc, char *argv[])
 {
-	int		fd;
 	char	*buf;
 
 	if (argc != 1)
 		exit(1);
 	if (check_extension(*argv, "cub"))
 		exit(1);
-	fd = open(*argv, O_RDONLY);
-	if (fd == -1)
-		exit(1);
-	//buf = read_file(fd);
-	//printf("%s\n", buf);
-	(void) game, (void) buf;
-	close(fd);
+	buf = read_file(*argv);
+	init_game(game, buf);
+	free(buf);
 }
