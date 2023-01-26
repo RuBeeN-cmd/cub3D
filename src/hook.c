@@ -15,21 +15,22 @@ void	put_sprite(t_data *data, int pos_y, int pos_x, t_img sprite)
 
 	while (y < sprite.height)
 	{
-			x = 0;
-			while (x < sprite.width)
-			{
-				if (((int*)sprite.buf)[index] != COLOR_MASK)
-					((int*)data->img.buf)[(pos_y + y) * data->img.width + (pos_x + x)] = ((int*)sprite.buf)[index];
-				index++;
-				x++;
-			}
-			y++;
+		x = 0;
+		while (x < sprite.width)
+		{
+			if (((int*)sprite.buf)[index] != COLOR_MASK)
+				((int*)data->img.buf)[(pos_y + y) * data->img.width + (pos_x + x)] = ((int*)sprite.buf)[index];
+			index++;
+			x++;
+		}
+		y++;
 	}
 }
 
 int	render_next_frame(t_data *data)
 {
 	draw_sky_ground(data, 0xace0e8, 0x254a08);
+	draw_map(data);
 	put_sprite(data, 0, 0, data->game.enemy_sprite);
 	mlx_clear_window(data->mlx, data->win);
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img, 0, 0);

@@ -13,6 +13,14 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <fcntl.h>
+#include <math.h>
+
+typedef struct	s_intersect
+{
+	float		dist;
+	float		wall_height;
+	struct s_intersect	*next;
+}				t_intersect;
 
 typedef struct	s_point
 {
@@ -89,5 +97,11 @@ char	*read_file(char *path);
 void	realloc_str(char **str_ptr, int size_to_add);
 int		ft_strlen(char *str);
 char 	*ft_strcpy(char *dest, const char *src);
+
+// float_utils.c
+float	get_min(float f1, float f2);
+
+//render.c
+void	draw_map(t_data *data);
 
 #endif
