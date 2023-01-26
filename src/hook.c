@@ -30,7 +30,8 @@ void	put_sprite(t_data *data, int pos_y, int pos_x, t_img sprite)
 int	render_next_frame(t_data *data)
 {
 	draw_sky_ground(data, 0xace0e8, 0x254a08);
-	put_sprite(data, 0, 0, data->game.enemy_sprite);
+	//put_sprite(data, 0, 0, data->game.enemy_sprite);
+	draw_text(data, &data->game.text);
 	mlx_clear_window(data->mlx, data->win);
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img, 0, 0);
 	return (0);

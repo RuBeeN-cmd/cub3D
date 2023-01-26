@@ -12,7 +12,6 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdio.h>
-#include <fcntl.h>
 
 typedef struct	s_point
 {
@@ -47,11 +46,20 @@ typedef struct	s_img
 	int		pixel_bits;
 }				t_img;
 
+typedef struct	s_text
+{
+	char	*text;
+	int		pos_y;
+	int		pos_x;
+	t_img	*sprite;
+}				t_text;
+
 typedef struct	s_game
 {
 	t_player	player;
 	t_map		map;
 	t_img		enemy_sprite;
+	t_text		text;
 }				t_game;
 
 typedef struct	s_data
@@ -63,6 +71,10 @@ typedef struct	s_data
 	t_img	img;
 	t_game	game;
 }				t_data;
+
+//proto text !
+void	draw_text(t_data *data, t_text *text);
+void	load_sprite(t_data *data, t_img *img, char *sprite_path);
 
 // data.c
 void	init_data(t_data *data, int argc, char *argv[]);
@@ -86,6 +98,7 @@ void	create_game(t_game *game, int argc, char *argv[]);
 char	*read_file(char *path);
 
 // str_utils.c
+char	*ft_strdup(const char *s);
 void	realloc_str(char **str_ptr, int size_to_add);
 int		ft_strlen(char *str);
 char 	*ft_strcpy(char *dest, const char *src);

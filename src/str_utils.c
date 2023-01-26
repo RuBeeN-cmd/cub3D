@@ -1,4 +1,4 @@
-#include "cub3D.h"
+#include "../include/cub3D.h"
 
 void	realloc_str(char **str_ptr, int size_to_add)
 {
@@ -20,6 +20,26 @@ int	ft_strlen(char *str)
 	while (str && str[len])
 		len++;
 	return (len);
+}
+
+char	*ft_strdup(const char *s)
+{
+	char	*src;
+	char	*dest;
+	int		i;
+
+	src = (char *) s;
+	i = 0;
+	dest = malloc(sizeof(char) * (ft_strlen(src) + 1));
+	if (dest == NULL)
+		return (NULL);
+	while (src[i] != '\0')
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
 }
 
 char *ft_strcpy(char *dest, const char *src)

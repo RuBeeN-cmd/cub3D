@@ -1,6 +1,6 @@
 #include "../include/cub3D.h"
 #include <math.h>
-
+/*
 typedef struct	s_intersect
 {
 	float		dist;
@@ -60,5 +60,5 @@ void	draw_map(t_data *data)
 		i++;
 	}
 }
-
+*/
 

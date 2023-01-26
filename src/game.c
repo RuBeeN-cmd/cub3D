@@ -1,4 +1,4 @@
-#include "cub3D.h"
+#include "../include/cub3D.h"
 
 static int	check_extension(char *str, char *ext)
 {
@@ -77,15 +77,16 @@ int		check_error(char *buf)
 //	}
 //}
 
-//void	init_game(t_game *game, char *buf)
-//{
-//	if (check_error(buf))
-//	{
-//		free(buf);
-//		exit(1);
-//	}
+void	init_game(t_game *game, char *buf)
+{
+	(void)game;
+	if (check_error(buf))
+	{
+		free(buf);
+		exit(1);
+	}
 //	parse_map(game, buf);
-//}
+}
 
 void	create_game(t_game *game, int argc, char *argv[])
 {
@@ -96,7 +97,6 @@ void	create_game(t_game *game, int argc, char *argv[])
 	if (check_extension(*argv, "cub"))
 		exit(1);
 	buf = read_file(*argv);
-	(void) game;
-	//init_game(game, buf);
+	init_game(game, buf);
 	free(buf);
 }
