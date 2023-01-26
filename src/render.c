@@ -1,5 +1,5 @@
 #include "../include/cub3D.h"
-
+/*
 float	get_dist(t_ray ray)
 {
 	float	adj;
@@ -121,5 +121,5 @@ void	draw_map(t_data *data)
 		i++;
 	}
 }
-
+*/
 
