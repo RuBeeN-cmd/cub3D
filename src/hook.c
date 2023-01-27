@@ -1,37 +1,76 @@
 #include "../include/cub3D.h"
 
-int	key_hook(int keycode, t_data *data)
+int	key_hook_press(int keycode, t_data *data)
 {
+	if (keycode == 119)
+		data->key_press += KEY_W;
+	if (keycode == 97)
+		data->key_press += KEY_A;
+	if (keycode == 115)
+		data->key_press += KEY_S;
+	if (keycode == 100)
+		data->key_press += KEY_D;
 	if (keycode == 65307)
 		mlx_loop_end(data->mlx);
 	return (0);
 }
 
-void	put_sprite(t_data *data, int pos_y, int pos_x, t_img sprite)
+int	key_hook_release(int keycode, t_data *data)
 {
-	int y = 0;
-	int x = 0;
-	int index = 0;
+	if (keycode == 119)
+		data->key_press -= KEY_W;
+	if (keycode == 97)
+		data->key_press -= KEY_A;
+	if (keycode == 115)
+		data->key_press -= KEY_S;
+	if (keycode == 100)
+		data->key_press -= KEY_D;
+	return (0);
+}
 
-	while (y < sprite.height)
-	{
-			x = 0;
-			while (x < sprite.width)
-			{
-				if (((int*)sprite.buf)[index] != COLOR_MASK)
-					((int*)data->img.buf)[(pos_y + y) * data->img.width + (pos_x + x)] = ((int*)sprite.buf)[index];
-				index++;
-				x++;
-			}
-			y++;
-	}
+int	mouse_move_hook(int x, int y, t_data *data)
+{
+	(void) y;
+	data->game.player.dir = rotate_vector((x - data->width / 2) * 0.001, data->game.player.dir);
+	mlx_mouse_move(data->mlx, data->win, data->width / 2, data->height / 2);
+	return (0);
+}
+
+int	button_hook(int button, int x, int y, t_data *data)
+{
+	(void) x;
+	(void) y;
+	if (button == 4)
+		data->fov++;
+	else if (button == 5)
+		data->fov--;
+	return (0);
 }
 
 int	render_next_frame(t_data *data)
 {
+	if (data->key_press & KEY_W)
+	{
+		data->game.player.pos.x -= 0.05 * data->game.player.dir.x;
+		data->game.player.pos.y -= 0.05 * data->game.player.dir.y;
+	}
+	if (data->key_press & KEY_S)
+	{
+		data->game.player.pos.x += 0.05 * data->game.player.dir.x;
+		data->game.player.pos.y += 0.05 * data->game.player.dir.y;
+	}
+	if (data->key_press & KEY_A)
+	{
+		data->game.player.pos.x -= 0.05 * data->game.player.dir.y;
+		data->game.player.pos.y -= 0.05 * -data->game.player.dir.x;
+	}
+	if (data->key_press & KEY_D)
+	{
+		data->game.player.pos.x += 0.05 * data->game.player.dir.y;
+		data->game.player.pos.y += 0.05 * -data->game.player.dir.x;
+	}
 	draw_sky_ground(data, 0xace0e8, 0x254a08);
-	//put_sprite(data, 0, 0, data->game.enemy_sprite);
-	draw_text(data, &data->game.text);
+	draw_map(data);
 	mlx_clear_window(data->mlx, data->win);
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img, 0, 0);
 	return (0);
