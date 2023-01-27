@@ -6,6 +6,10 @@
 #define SCREEN_HEIGHT 600
 #define COLOR_MASK 0xff00ff
 #define FOV 90.0
+#define KEY_W 1
+#define KEY_A 2
+#define KEY_S 4
+#define KEY_D 8
 
 #include "../mlx/mlx.h"
 #include <math.h>
@@ -37,11 +41,14 @@ typedef struct	s_ray
 typedef struct	s_player
 {
 	t_point	pos;
+	t_point	dir;
 }				t_player;
 
 typedef struct	s_map
 {
 	float	**map;
+	int		width;
+	int		height;
 }				t_map;
 
 typedef struct	s_img
@@ -79,7 +86,15 @@ typedef struct	s_data
 	int		height;
 	t_img	img;
 	t_game	game;
+	float	fov;
+	int		key_press;
 }				t_data;
+
+// sprite.c
+void	draw_sprite(t_data *data, int pos_y, int pos_x, t_img sprite);
+
+// vector.c
+t_point	rotate_vector(float angle, t_point vector);
 
 //proto text !
 void	draw_text(t_data *data, t_text *text);
@@ -90,7 +105,10 @@ void	init_data(t_data *data, int argc, char *argv[]);
 void	destroy_data(t_data data);
 
 // hook.c
-int		key_hook(int keycode, t_data *data);
+int		key_hook_press(int keycode, t_data *data);
+int		key_hook_release(int keycode, t_data *data);
+int		button_hook(int keycode, int x, int y, t_data *data);
+int		mouse_move_hook(int x, int y, t_data *data);
 int		render_next_frame(t_data *data);
 
 // image.c
