@@ -1,6 +1,7 @@
 #ifndef CUB3D_H
 #define CUB3D_H
 
+#define FONT_SIZE 16
 #define PI 3.14159265359
 #define SCREEN_WIDTH 1000
 #define SCREEN_HEIGHT 600

@@ -42,7 +42,7 @@ void	init_data(t_data *data, int argc, char *argv[])
 	data->win = mlx_new_window(data->mlx, data->width, data->height, "Cub3D");
 	set_hook(data);
 	load_sprite(data, &data->game.enemy_sprite, "asset/sprite/player_0.xpm");
-	init_text(data, &data->game.text, "Hello World !", 42, 42);
+	init_text(data, &data->game.text, "tfwejglkgjkWENBGiuuUUIuiil", 42, 42);
 	create_new_image(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img, 0, 0);
 }
