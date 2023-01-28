@@ -26,7 +26,6 @@ typedef struct	s_intersect
 {
 	float		dist;
 	float		wall_height;
-	struct s_intersect	*next;
 }				t_intersect;
 
 typedef struct	s_point

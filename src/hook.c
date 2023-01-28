@@ -57,23 +57,23 @@ int	render_next_frame(t_data *data)
 {
 	if (data->key_press & KEY_W)
 	{
-		data->game.player.pos.x -= 0.05 * data->game.player.dir.x;
-		data->game.player.pos.y -= 0.05 * data->game.player.dir.y;
+		data->game.player.pos.x += 0.01 * data->game.player.dir.x;
+		data->game.player.pos.y += 0.01 * data->game.player.dir.y;
 	}
 	if (data->key_press & KEY_S)
 	{
-		data->game.player.pos.x += 0.05 * data->game.player.dir.x;
-		data->game.player.pos.y += 0.05 * data->game.player.dir.y;
+		data->game.player.pos.x -= 0.01 * data->game.player.dir.x;
+		data->game.player.pos.y -= 0.01 * data->game.player.dir.y;
 	}
 	if (data->key_press & KEY_A)
 	{
-		data->game.player.pos.x -= 0.05 * data->game.player.dir.y;
-		data->game.player.pos.y -= 0.05 * -data->game.player.dir.x;
+		data->game.player.pos.x += 0.01 * data->game.player.dir.y;
+		data->game.player.pos.y += 0.01 * -data->game.player.dir.x;
 	}
 	if (data->key_press & KEY_D)
 	{
-		data->game.player.pos.x += 0.05 * data->game.player.dir.y;
-		data->game.player.pos.y += 0.05 * -data->game.player.dir.x;
+		data->game.player.pos.x -= 0.01 * data->game.player.dir.y;
+		data->game.player.pos.y -= 0.01 * -data->game.player.dir.x;
 	}
 
 	draw_sky_ground(data, 0xace0e8, 0x254a08);
