@@ -19,6 +19,8 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <math.h>
+#include <stddef.h>
+#include <stdint.h>
 
 typedef struct	s_intersect
 {
@@ -91,6 +93,10 @@ typedef struct	s_data
 	int		key_press;
 }				t_data;
 
+//mlx_game_utils_lib
+void	init_text(t_data *data, t_text *text, const char *str, int x, int y);
+
+
 // sprite.c
 void	draw_sprite(t_data *data, int pos_y, int pos_x, t_img sprite);
 
@@ -126,6 +132,7 @@ void	create_game(t_game *game, int argc, char *argv[]);
 char	*read_file(char *path);
 
 // str_utils.c
+char	*ft_itoa(int n);
 char	*ft_strdup(const char *s);
 void	realloc_str(char **str_ptr, int size_to_add);
 int		ft_strlen(char *str);

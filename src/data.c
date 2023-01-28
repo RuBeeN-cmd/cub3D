@@ -25,9 +25,10 @@ void	init_text(t_data *data, t_text *text, const char *str, int x, int y)
 	text->text = ft_strdup(str);
 	text->pos_x = x;
 	text->pos_y = y;
-	text->sprite = malloc(sizeof(t_img) * 2);
+	text->sprite = malloc(sizeof(t_img) * 3);
 	load_sprite(data, &text->sprite[0], "asset/font/lower_font.xpm");
 	load_sprite(data, &text->sprite[1], "asset/font/upper_font.xpm");
+	load_sprite(data, &text->sprite[2], "asset/font/numeral_font.xpm");
 }
 
 void	destroy_text(t_data data, t_text text)
@@ -49,9 +50,7 @@ void	init_data(t_data *data, int argc, char *argv[])
 	data->fov = FOV;
 	data->key_press = 0;
 	load_sprite(data, &data->game.enemy_sprite, "asset/sprite/player_0.xpm");
-<<<<<<< HEAD
-	init_text(data, &data->game.text, "tfwejglkgjkWENBGiuuUUIuiil", 42, 42);
-=======
+	init_text(data, &data->game.text, "XX", 10, 10);
 
 	int i;
 	int j;
@@ -103,7 +102,6 @@ void	init_data(t_data *data, int argc, char *argv[])
 	data->game.player.dir.y = 1;
 
 
->>>>>>> 1e7afc52968629542d7292d5e41c6d3bf476d6b5
 	create_new_image(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img, 0, 0);
 	set_hook(data);
@@ -121,6 +119,7 @@ void	destroy_data(t_data data)
 		free(data.game.map.map[i]);
 		i++;
 	}
+	destroy_text(data, data.game.text);
 	free(data.game.map.map);
 	mlx_destroy_image(data.mlx, data.game.enemy_sprite.img);
 	mlx_clear_window(data.mlx, data.win);
