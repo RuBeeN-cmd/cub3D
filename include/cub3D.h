@@ -12,7 +12,7 @@
 #define KEY_S 4
 #define KEY_D 8
 
-#include "../mlx_opengl/mlx.h"
+#include "../mlx/mlx.h"
 #include <math.h>
 #include <stdlib.h>
 #include <unistd.h>
