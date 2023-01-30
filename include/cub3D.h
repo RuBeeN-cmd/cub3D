@@ -12,7 +12,7 @@
 #define KEY_S 4
 #define KEY_D 8
 
-#include "../mlx/mlx.h"
+#include "../mlx_opengl/mlx.h"
 #include <math.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -26,6 +26,8 @@ typedef struct	s_intersect
 {
 	float		dist;
 	float		wall_height;
+	struct s_intersect	*next;
+	struct s_intersect	*back;
 }				t_intersect;
 
 typedef struct	s_point
@@ -101,6 +103,10 @@ void	draw_sprite(t_data *data, int pos_y, int pos_x, t_img sprite);
 
 // vector.c
 t_point	rotate_vector(float angle, t_point vector);
+t_point	add_vector(t_point v1, t_point v2);
+t_point	sub_vector(t_point v1, t_point v2);
+float	dot_vector(t_point v1, t_point v2);
+t_point	mult_vector(t_point vector, float f);
 
 //proto text !
 void	draw_text(t_data *data, t_text *text);
@@ -142,5 +148,12 @@ float	get_min(float f1, float f2);
 
 //render.c
 void	draw_map(t_data *data);
+
+// ray.c
+t_intersect	*get_ray_data(t_data *data, t_ray ray, float render_dist);
+t_point	get_delta(t_ray ray);
+t_point	get_dist(t_ray ray);
+t_ray	increment_ray(t_data *data, float delta, t_ray ray, t_point *proj);
+t_ray	init_first_ray(t_data *data, float delta, t_point *proj);
 
 #endif
