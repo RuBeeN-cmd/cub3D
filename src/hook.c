@@ -44,6 +44,12 @@ int	button_hook(int button, int x, int y, t_data *data)
 		data->fov++;
 	else if (button == 5)
 		data->fov--;
+	if (button == 4 || button == 5)
+	{
+		free(data->game.text.text);
+		data->game.text.text = ft_itoa((int)data->fov);
+
+	}
 	return (0);
 }
 
@@ -69,8 +75,10 @@ int	render_next_frame(t_data *data)
 		data->game.player.pos.x -= 0.01 * data->game.player.dir.y;
 		data->game.player.pos.y -= 0.01 * -data->game.player.dir.x;
 	}
+
 	draw_sky_ground(data, 0xace0e8, 0x254a08);
 	draw_map(data);
+	draw_text(data, &data->game.text);
 	mlx_clear_window(data->mlx, data->win);
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img, 0, 0);
 	return (0);
