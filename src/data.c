@@ -103,7 +103,7 @@ void	init_data(t_data *data, int argc, char *argv[])
 	create_new_image(data);
 	mlx_put_image_to_window(data->mlx, data->win, data->img.img, 0, 0);
 	set_hook(data);
-	mlx_mouse_hide(data->mlx, data->win);
+	//mlx_mouse_hide(data->mlx, data->win);
 	mlx_mouse_move(data->mlx, data->win, data->width / 2, data->height / 2);
 }
 
