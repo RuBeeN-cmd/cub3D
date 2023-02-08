@@ -21,112 +21,72 @@ t_ray	increment_ray(t_data *data, float delta, t_ray ray, t_point *proj)
 	return (ray);
 }
 
-t_point	get_dist(t_ray ray)
+void	get_delta(t_ray ray, t_point *delta)
 {
-	t_point	dist;
-	
-	if (ray.vector.x < 0)
-		dist.x = -1 / ray.vector.x * (ray.start.x - (int) ray.start.x);
-	else
-	{
-		if (ray.vector.x)
-			dist.x = 1 / ray.vector.x * (1 - ray.start.x + (int) ray.start.x);
-		else
-			dist.x = 1e30;
-	}
-	if (ray.vector.y < 0)
-		dist.y = -1 / ray.vector.y * (ray.start.y - (int) ray.start.y);
-	else
-	{
-		if (ray.vector.y)
-			dist.y = 1 / ray.vector.y * (1 - ray.start.y + (int) ray.start.y);
-		else
-			dist.x = 1e30;
-	}
-	return (dist);
-}
-
-t_point	get_delta(t_ray ray)
-{
-	t_point	delta;
-
 	if (ray.vector.x)
-		delta.x = fabs(1 / ray.vector.x);
+		delta->x = fabs(1 / ray.vector.x);
 	else
-		delta.x = 1e30;
+		delta->x = 1e30;
 	if (ray.vector.y)
-		delta.y = fabs(1 / ray.vector.y);
+		delta->y = fabs(1 / ray.vector.y);
 	else
-		delta.y = 1e30;
-	return (delta);
+		delta->y = 1e30;
 }
 
-t_intersect	*get_ray_data(t_data *data, t_ray ray, float render_dist)
+void	get_dist(t_ray ray, t_intpoint *step, t_point *dist)
+{
+	step->x = 1;
+	if (ray.vector.x < 0)
+		step->x = -1;
+	step->y = 1;
+	if (ray.vector.y < 0)
+		step->y = -1;
+	dist->x = 1e30;
+	dist->y = 1e30;
+	if (ray.vector.x < 0)
+		dist->x = -(ray.start.x - (int) ray.start.x);
+	else if (ray.vector.x > 0)
+		dist->x = ((int) ray.start.x - ray.start.x + 1);
+	if (ray.vector.y < 0)
+		dist->y = -(ray.start.y - (int) ray.start.y);
+	else if (ray.vector.y > 0)
+		dist->y = ((int) ray.start.y - ray.start.y + 1);
+	dist->x /= ray.vector.x;
+	dist->y /= ray.vector.y;
+}
+
+t_intersect	*get_intersect(t_data *data, t_point dist, t_point delta, t_intpoint step, t_intpoint map_index)
 {
 	t_intersect *intersect;
-	t_point		dist;
-	t_point		delta;
-	int			mapX;
-	int			mapY;
-	int			mapX2;
-	int			mapY2;
-	int			stepX;
-	int			stepY;
+	int			mapX2 = 0;
+	int			mapY2 = 0;
 	int			side;
 
-	if (ray.vector.x < 0)
-	{
-		stepX = -1;
-		dist.x = -(ray.start.x - (int) ray.start.x) / ray.vector.x;
-	}
-	else
-	{
-		stepX = 1;
-		if (ray.vector.x)
-			dist.x = ((int) ray.start.x + 1.0 - ray.start.x) / ray.vector.x;
-		else
-			dist.y = 1e30;
-	}
-	if (ray.vector.y < 0)
-	{
-		stepY = -1;
-		dist.y = -(ray.start.y - (int) ray.start.y) / ray.vector.y;
-	}
-	else
-	{
-		stepY = 1;
-		if (ray.vector.y)
-			dist.y = ((int) ray.start.y + 1.0 - ray.start.y) / ray.vector.y;
-		else
-			dist.y = 1e30;
-	}
-	delta = get_delta(ray);
-	mapX = (int) ray.start.x;
-	mapY = (int) ray.start.y;
 	intersect = NULL;
-	while (dist.x - delta.x < render_dist && dist.y - delta.y < render_dist)
+	while (map_index.x >= 0 && map_index.x < data->game.map.width
+		&& map_index.y >= 0 && map_index.y < data->game.map.height)
 	{
 		if (dist.x < dist.y)
 		{
 			dist.x += delta.x;
-			mapX += stepX;
+			map_index.x += step.x;
 			side = 0;
 		}
 		else
 		{
 			dist.y += delta.y;
-			mapY += stepY;
+			map_index.y += step.x;
 			side = 1;
 		}
 		if (side)
 		{
-			mapY2 = mapY - stepY;
-			mapX2 = mapX;
+			mapY2 = map_index.y - step.x;
+			mapX2 = map_index.x;
 		}
 		else
 		{
-			mapX2 = mapX - stepX;
-			mapY2 = mapY;
+			mapX2 = map_index.x - step.x;
+			mapY2 = map_index.y;
 		}
 		for (int i = 0; i < 2; i++)
 		{
@@ -149,6 +109,12 @@ t_intersect	*get_ray_data(t_data *data, t_ray ray, float render_dist)
 						}
 						intersect->next = NULL;
 						intersect->wall_height = data->game.map.map[mapY2][mapX2];
+						intersect->color = side << 1;
+						if (side)
+							intersect->color += (step.x > 0);
+						else
+							intersect->color += (step.x > 0);
+
 						if (side == 0)
 							intersect->dist = dist.x - delta.x;
 						else
@@ -157,10 +123,26 @@ t_intersect	*get_ray_data(t_data *data, t_ray ray, float render_dist)
 				}
 			}
 			if (side)
-				mapY2 += stepY;
+				mapY2 += step.x;
 			else
-				mapX2 += stepX;
+				mapX2 += step.x;
 		}
 	}
+	return (intersect);
+}
+
+t_intersect	*get_ray_data(t_data *data, t_ray ray)
+{
+	t_intersect *intersect;
+	t_intpoint	step;
+	t_intpoint	map_index;
+	t_point		dist;
+	t_point		delta;
+
+	get_dist(ray, &step, &dist);
+	get_delta(ray, &delta);
+	map_index.x = (int) ray.start.x;
+	map_index.y = (int) ray.start.y;
+	intersect = get_intersect(data, dist, delta, step, map_index);
 	return (intersect);
 }

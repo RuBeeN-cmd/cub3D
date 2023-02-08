@@ -69,10 +69,10 @@ void	init_data(t_data *data, int argc, char *argv[])
 		i++;
 	}
 	data->game.map.map[i] = NULL;
-	data->game.map.map[47][47] = 1.0;
+	data->game.map.map[47][47] = 0.5;
 	data->game.map.map[47][48] = 1.0;
-	data->game.map.map[47][49] = 1.0;
-	data->game.map.map[47][50] = 1.0;
+	data->game.map.map[47][49] = 2.0;
+	data->game.map.map[47][50] = 3.0;
 	data->game.map.map[47][51] = 1.0;
 	data->game.map.map[47][52] = 1.0;
 	data->game.map.map[47][53] = 1.0;

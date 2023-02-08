@@ -11,6 +11,7 @@
 #define KEY_A 2
 #define KEY_S 4
 #define KEY_D 8
+#define KEY_SHIFT 16
 
 #include "../mlx/mlx.h"
 #include <math.h>
@@ -22,10 +23,17 @@
 #include <stddef.h>
 #include <stdint.h>
 
+typedef enum	e_orientation
+{
+	NORTH, EAST, SOUTH, WEST
+}				t_orientation;
+
 typedef struct	s_intersect
 {
-	float		dist;
-	float		wall_height;
+	float				dist;
+	float				wall_height;
+	int					color;
+	t_orientation		orientation;
 	struct s_intersect	*next;
 	struct s_intersect	*back;
 }				t_intersect;
@@ -35,6 +43,12 @@ typedef struct	s_point
 	float	x;
 	float	y;
 }				t_point;
+
+typedef struct	s_intpoint
+{
+	int	x;
+	int	y;
+}				t_intpoint;
 
 typedef struct	s_ray
 {
@@ -150,9 +164,9 @@ float	get_min(float f1, float f2);
 void	draw_map(t_data *data);
 
 // ray.c
-t_intersect	*get_ray_data(t_data *data, t_ray ray, float render_dist);
-t_point	get_delta(t_ray ray);
-t_point	get_dist(t_ray ray);
+t_intersect	*get_ray_data(t_data *data, t_ray ray);
+void		get_delta(t_ray ray, t_point *delta);
+//t_point	get_dist(t_ray ray);
 t_ray	increment_ray(t_data *data, float delta, t_ray ray, t_point *proj);
 t_ray	init_first_ray(t_data *data, float delta, t_point *proj);
 
